@@ -1,0 +1,140 @@
+参考JDK8.5源代码
+
+package java.lang;
+
+//实现了可序列化接口，比较器接口
+public final class Boolean implements java.io.Serializable,Comparable<Boolean>
+{
+  public static final Boolean TRUE = new Boolean(true);    //TRUE 为 Boolean类 属性(属性类型为Boolean)，其值为"true".
+  public static final Boolean FALSE = new Boolean(false);  //FALSE 为 Boolean类 属性(属性类型为Boolean)，其值为"false".
+  public static final Class<Boolean> TYPE = (Class<Boolean>) Class.getPrimitiveClass("boolean"); //表示基本类型 boolean 的 Class 对象.
+  
+  private final boolean value; //  表示布尔类型的变量，用来保存布尔值
+  
+  //构造方法，传入的值为boolean类型
+  public Boolean(boolean value){
+    this.value = value; 
+  }
+  
+  //构造方法，传入的值为String类型,this(parseBoolean(s))调用Boolean(boolean value)的构造方法，parseBoolean(s)将字符串转化为boolean值。
+  public Boolean(String s){
+    this(parseBoolean(s)); 
+  }
+  
+  //将字符串转化为布尔值
+  public static boolean parseBoolean(String s){
+    return (s != null && s.equalsIgnoreCase("true")); //布尔表达式 
+  }
+  
+  //返回布尔值
+  public boolean booleanValue(){
+    return value;
+  }
+  
+  //返回一个表示指定 boolean 值的 Boolean 实例。
+  public static Boolean valueOf(boolean b){
+    return (b ? TRUE : FALSE);
+  }
+  
+  //返回一个表示指定 String 值的 Boolean 实例。
+  public static Boolean valueOf(String s){
+    return parseBoolean(s) ? TRUE : FALSE;
+  }
+  
+  //返回一个表示指定布尔值的 String 对象。
+  public static String toString(boolean b){
+    return b ? "true" : "false";
+  }
+  
+  //返回表示该布尔值的 String 对象。
+  public String toString(){
+    return value ? "true" : "false";
+  }
+  
+  //返回该 Boolean 对象的哈希码。
+  @Override
+  public int hashCode(){
+    return Boolean.hashCode(value);
+  }
+  
+  //返回指定布尔值的哈希吗
+  public static int hashCode(boolean value){
+    return value ? 1231 : 1237;
+  }
+  
+  //返回true 当且仅当参数不为null且两个Boolean对象的布尔值相等时。
+  public boolean equals(Object obj){
+    if (obj instanceof Boolean) {
+      return value == (Boolean(obj)).booleanValue();
+    }
+    return false;
+  }
+  
+  //当且仅当以参数命名的系统属性存在，且等于 "true" 字符串时，才返回 true。
+  public static boolean getBoolean(String name) {
+        boolean result = false;
+        try {
+            result = parseBoolean(System.getProperty(name));
+        } catch (IllegalArgumentException | NullPointerException e) {
+        }
+        return result;
+    }
+  
+  //两个Boolean对象进行比较
+  public int compareTo(Boolean b) {
+        return compare(this.value, b.value);
+    }
+    
+  //比较布尔值x和布尔值y
+  public static int compare(boolean x, boolean y){
+    return (x == y) ? 0 : (x ? 1 : -1);
+  }
+  
+  //布尔值a 和 布尔值b 逻辑与运算
+  public static boolean logicalAnd(boolean a, boolean b){
+    return a && b;
+  }
+  
+  //布尔值a 和 布尔值b 逻辑或运算
+  public static boolean logicalOr(boolean a, boolean b){
+    return a || b;
+  }
+
+  //布尔值a 和 布尔值b 逻辑异或运算
+  public static boolean logicalXor(boolean a, boolean b){
+    return a ^ b;
+  }
+}
+
+总结：
+静态方法（类方法）：按功能划分
+    1） 两个boolean值的比较和逻辑运算。  
+            static int compare(boolean x, boolean y);               
+            static boolean	logicalAnd(boolean a, boolean b)
+            static boolean	logicalOr(boolean a, boolean b)
+            static boolean	logicalXor(boolean a, boolean b)
+    2）  字符串 与 布尔值 相互转换。
+            static boolean	parseBoolean(String s)
+            static String	toString(boolean b)
+    3）返回表示指定的boolean值、字符串的Boolean实例
+            static Boolean	valueOf(boolean b)
+            static Boolean	valueOf(String s)
+    4)  返回一个 boolean值的哈希代码兼容 Boolean.hashCode()。 
+                    static int hashCode(boolean value);
+   
+    5） 返回 true当且仅当以参数命名的系统属性的存在，等于字符串 "true"。
+            static boolean	getBoolean(String name)
+            
+非静态方法（对象方法）：按功能划分
+    1） 两个Boolean对象进行比较。
+            public int compareTo(Boolean b)  //实现Comparable<Boolean> 接口
+    2） 返回true 当且仅当参数不为null且两个Boolean对象的布尔值相等。
+            boolean	equals(Object obj)       //继承Object
+    3） 返回该对象的哈希码。
+            public int hashCode()            //继承Object
+    4） 返回表示该布尔值的 String 对象。
+            String	toString()               //继承Object
+    5） 返回该对象的布尔值。
+            boolean	booleanValue()
+            
+
