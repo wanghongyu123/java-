@@ -32,7 +32,7 @@ public abstract class Number implements java.io.Serializable {
     return (short)shortValue();
   }
 
-  //用于序列化
+  //用于序列化。
   private static final long serialVersionUID = -8742448824652078965L;
 
 }
