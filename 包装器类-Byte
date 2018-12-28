@@ -1,0 +1,8 @@
+参考JDK1.8源代码
+
+package java.lang;
+
+
+public final class Byte extends Number implements Comparable<Byte> {
+  
+}
