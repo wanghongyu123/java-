@@ -1,0 +1,38 @@
+参考JDK8.5源代码
+
+package java.lang;
+
+/*
+*抽象类Number是表示数字值可转换为基本数据类型平台类的超类byte ， double ， float ， int ， long和short 。 从一个特定的数字值转换的特定语义Number
+*实现给定的原语类型由定义Number所讨论的实现。 对于平台类，转换往往是类似于一个基本收缩转换或加宽原语转换为The Java™ Language Specification限定用于
+*原始类型之间的转换。 因此，转换可能会丢失有关数值的总体大小的信息，可能会失去精度，甚至可能会返回与输入不同的符号结果。 有关转换的详细信息，请参阅给定的
+*Number实现的文档。 
+*/
+public abstract class Number implements java.io.Serializable {
+  
+  //返回特定数字的int（基本类型），可能会舍入和截断。
+  public abstract int intValue();
+  
+  //返回特定数字的long（基本类型），可能会舍入和截断。
+  public abstract long longValue();
+  
+  //返回特定数字的float（基本类型），可能会舍入和截断。
+  public abstract float floatValue();
+  
+  //返回特定数字的double（基本类型），可能会舍入和截断。
+  public abstract double doubleValue();
+  
+  //返回特定数字的byte（基本类型），可能会舍入和截断。
+  public byte byteValue() {
+    return (byte)intValue();
+  }
+
+  //返回特定数字的short（基本类型），可能会舍入和截断。
+  public short shortValue() {
+    return (short)shortValue();
+  }
+
+  //用于序列化。
+  private static final long serialVersionUID = -8742448824652078965L;
+
+}
