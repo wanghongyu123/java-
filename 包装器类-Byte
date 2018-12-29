@@ -2,7 +2,180 @@
 
 package java.lang;
 
-
+/*
+* 这个Byte类用来封装原始的byte值，还提供了byte和String相互转换的方法，
+* 包括其他的常量和方法用来来处理byte的。
 public final class Byte extends Number implements Comparable<Byte> {
+  
+  //拥有最小byte值的常量
+  public static final byte  MIN_VALUE = -128;
+  
+  //拥有最大byte值的常量
+  public static final byte  MAX_VALUE = 127;
+  
+  //这个类实例代表原始byte类型
+  public static final Class<Byte>   TYPE = (Class<Byte>) Class.getPrimitiveClass("byte");
+  
+  //返回一个代表特定byte值的字符串对象，基数为10.
+  public static String toString(byte b) {
+    return Integer.toString((int)b, 10);
+  }
+  
+  //Byte缓冲区
+  private static class ByteCache {
+    private ByteCache(){}
+    
+    static final Byte cache[] = new Byte[-(-128) + 127 + 1];
+    
+    static {
+      for(int i = 0; i < cache.length; i++) {
+        cache[i] = new Byte((byte)(i-128));
+      }
+    }
+  }
+  
+  /*
+  *返回特定Byte对象跟据特定byte值。如果不需要新的字节实例，则通常应优先使用此方法而不是构造函数，因为由于缓存了所有
+  *字节值，因此此方法可能会产生明显更好的空间和时间性能。
+  */
+  public static Byte valueOf(byte b) {
+    final int offset = 128;
+    return ByteCache.cache[(int)b + offset];
+  }
+  
+  /*
+  *返回byte值根据特定字符串和基数，如果返回的值不在byte范围内，则抛出NumberFormatException
+  */
+  public static byte paraseByte(String s, int radix) 
+    throws NumberFormatException {
+     int i = Integer.paraseInt(s, ra
+     
+     dix);
+     if (i < MIN_VALUE || i > MAX_VALUE)
+       throws new NUmberFormatException(
+          "Value out of range.  Value:\"" + s + "\" Radix:" + radix);
+     return (byte)i;
+  }
+  
+  //返回byte值根据特定字符串
+  public static byte parseByte(String s) throws NumberFormatException {
+    return Byte.parseByte(s,10);
+  }
+  
+  //返回Byte对象根据特定基数的字符串
+  public static Byte valueOf(String s, int radix) 
+      throws NumberFormatException {
+      return valueOf(parseByte(s, radix));
+  }
+  
+  //返回Byte对象根据特定的字符串
+  public static Byte valueOf(String s) throws NumberFormatException {
+    return valueOf(s, 10);
+  }
+  
+  //返回Byte对象根据16,10,8进制字符串，16进制前导0x,0X,#,8进制前导0
+  public static Byte decode(String nm) throws NumberFormatException {
+    int i = Integer.code(nm);
+    if (i < MIN_VALUE || i > MAX_VALUE)
+      throws new NumberFormatException(
+            "Value " + i + " out of range from input " + nm);
+     return valueOf((byte)i);
+  }
+  
+  //Byte对象的值
+  private final byte value;
+  
+  //构造一个Byte对象根据特定的byte值
+  public Byte(byte value) {
+    this.value = value;
+  }
+  
+  //构造一个Byte对象根据特定的String
+  public Byte(String s) throws NumberFormatException {
+    this.value = parseByte(s, 10);
+  }
+  
+  //返回Byte对象的值
+  public byte byteValue() {
+    return value;
+  }
+  
+  //返回Byte对象的值，该值转换成short类型
+  public short shortValue() {
+    return (short)value;
+  }
+
+  //返回Byte对象的值，该值转换成int类型
+  public int intValue() {
+    return (int)value;
+  }
+
+  //返回Byte对象的值，该值转换long类型
+  public long longValue() {
+    return (long)value;
+  }
+
+  //返回Byte对象的值，该值转换成float类型
+  public float floatValue() {
+    return (float)value;
+  }
+
+  //返回Byte对象的值,该值转换成double类型
+  public double doubleValue() {
+    return (double)value;
+  }
+
+  //Byte对象的值转变成String
+  public String toStrin() {
+    return Integer.toString((int)value);
+  }
+  
+  //返回Byte对象的哈希码
+  @Override
+  publci int hashCode() {
+    return Byte.hashCode(value);
+  }
+  
+  //返回特定byte值的哈希码
+  public static int hashCode(byte value) {
+    return (int)value;
+  }
+  
+  //两个对象判等
+  public boolean equals(Object obj) {
+    if (obj instanceof Byte) {
+      return value == ((Byte)obj).byteValue();
+    }
+    return false;
+  }
+  
+  //一个Byte对象和另一个Byte对象比较
+  public int comparaTo(Byte anotherByte) {
+    return compare(this.value, anotherByte.value);
+  }
+  
+  //对两个byte值进行比较
+  public static int compare(byte x, byte y) {
+    reutrn x - y;
+  }
+  
+  //转换成无符号整数
+  public static int toUnsignedInt(byte x) {
+    return ((int) x) & 0xff;
+  }
+  
+  //转换成无符号长整数
+  public static long toUnsignedLong(byte x) {
+    return ((Long) x) & 0xffL;
+  }
+  
+  //bit数用来表示字节的二进制形式
+  public static final int SIZE = 8;
+  
+  //字节数代表字节的二进制形式
+  public static final int BYTES = SIZE / Byte.SIZE;
+  
+  //用于序列化
+  private static final long serialVersionUID = -7183698231559129828L;
   
 }
