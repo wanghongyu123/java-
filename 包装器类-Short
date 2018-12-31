@@ -1,0 +1,73 @@
+参考JDK1.8源代码
+
+package java.lang;
+
+public final class Short extends Number implements Comparable<Short> {
+  
+ //常量拥有short类型的最小值
+ public static final short  MIN_VALUE = -32768;
+ 
+ //常量拥有short类型的最大值
+ public static final short  MAX_VALUE = 32767;
+ 
+ //类的实例代表原始的short类型
+ @SuppressWarnings("unchecked")
+ public static final Class<Short>    TYPE = (Class<Short>) Class.getPrimitiveClass("short");
+ 
+ //返回String对象根据特定的short值
+ public static String toString(short s) {
+  return Intrger.toString((int)s, 10);
+ }
+ 
+ //返回short值根据特定进制的字符串
+ public static short parseShort(String s, int radix)
+        throws NumberFormatException {
+        int i = Integer.parseInt(s, radix);
+        if (i < MIN_VALUE || i > MAX_VALUE)
+            throw new NumberFormatException(
+                "Value out of range. Value:\"" + s + "\" Radix:" + radix);
+        return (short)i;
+    }
+ 
+ //返回short值根据特定的字符串
+ public static short parseShort(String s) throws NumberFormatException {
+        return parseShort(s, 10);
+    }
+ 
+ //返回Short对象根据特定基数的字符串
+ public static Short valueOf(String s, int radix)
+        throws NumberFormatException {
+        return valueOf(parseShort(s, radix));
+    }
+    
+ //返回Short对象根据特定的字符串
+ public static Short valueOf(String s) throws NumberFormatException {
+        return valueOf(s, 10);
+    }
+
+ //short缓存区
+ private static class ShortCache {
+        private ShortCache(){}
+
+        static final Short cache[] = new Short[-(-128) + 127 + 1];
+
+        static {
+            for(int i = 0; i < cache.length; i++)
+                cache[i] = new Short((short)(i - 128));
+        }
+    }
+    
+ //返回Short实例根据特定short值
+  public static Short valueOf(short s) {
+        final int offset = 128;
+        int sAsInt = s;
+        if (sAsInt >= -128 && sAsInt <= 127) { // must cache
+            return ShortCache.cache[sAsInt + offset];
+        }
+        return new Short(s);
+    }
+ 
+ 
+
+  
+}
