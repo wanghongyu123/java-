@@ -67,7 +67,114 @@ public final class Short extends Number implements Comparable<Short> {
         return new Short(s);
     }
  
- 
+ //对特定进制字符串进行解码为Short对象，16进制 前导0x,0X,#。8进制 前导0
+   public static Short decode(String nm) throws NumberFormatException {
+        int i = Integer.decode(nm);
+        if (i < MIN_VALUE || i > MAX_VALUE)
+            throw new NumberFormatException(
+                    "Value " + i + " out of range from input " + nm);
+        return valueOf((short)i);
+    }
+  
+  //Short对象的值
+  private final short value;
+  
+  //构造Short对象根据特定short值
+  public Short(short value) {
+        this.value = value;
+    }
+  
+  //构造Short对象根据特定String值
+  public Short(String s) throws NumberFormatException {
+        this.value = parseShort(s, 10);
+    }
 
+  //返回对象的byte值
+  public byte byteValue() {
+        return (byte)value;
+    }
+  
+  //返回对象的short值
+  public short shortValue() {
+        return  value;
+    }
+   
+  //返回对象的int值
+  public int intValue() {
+        return (int)value;
+    }
+  //返回对象的long值
+  public long longValue() {
+        return (long)value;
+    }
+  //返回对象的float值
+  public float floatValue() {
+        return (float)value;
+    }  
+  
+  //返回对象的double值
+  public double doubleValue() {
+        return (double)value;
+    }
+   
+  //将对象的值转变为字符串
+  public String toString() {
+        return Integer.toString((int)value);
+    }
+  
+  //返回对象的哈希码
+   @Override
+    public int hashCode() {
+        return Short.hashCode(value);
+    }
+  
+  //返回特定short值的哈希码
+  public static int hashCode(short value) {
+        return (int)value;
+    }
+  
+  //俩对象判等
+  public boolean equals(Object obj) {
+        if (obj instanceof Short) {
+            return value == ((Short)obj).shortValue();
+        }
+        return false;
+    }
+  
+  //两对象比较
+  public int compareTo(Short anotherShort) {
+        return compare(this.value, anotherShort.value);
+    }
+  
+  //两short值比较
+  public static int compare(short x, short y) {
+        return x - y;
+    }
+  
+  //bit数代表short类型的二进制形式
+  public static final int SIZE = 16;
+  
+  //字节数代表short类型的二进制形式
+  public static final int BYTES = SIZE / Byte.SIZE;
+  
+  //返回反转指定的二进制补码表示的字节顺序而获得的值 short值。 
+  public static short reverseBytes(short i) {
+        return (short) (((i & 0xFF00) >> 8) | (i << 8));
+    }
+  
+  //返回特定short值的无符号整数
+  public static int toUnsignedInt(short x) {
+        return ((int) x) & 0xffff;
+    }
+    
+  //返回特定short值的无符号长整数
+  public static long toUnsignedLong(short x) {
+        return ((long) x) & 0xffffL;
+    }
+    
+  /** use serialVersionUID from JDK 1.1. for interoperability */
+    private static final long serialVersionUID = 7515723908773894738L;
+    
+ 
   
 }
